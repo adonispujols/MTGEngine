@@ -3,9 +3,11 @@ extends Node
 func _ready():
 	# Called when the node is added to the scene for the first time.
 	# Initialization here
-#	var _game_class = load("game.gd")
-#	var game = _game_class.new(2)
-#	print(game.get_val())
-#	game.set_val(3)
-#	print(game.get_val())
+	var game_class = load("res://test_game.gd")
+#	var game = game_class.new()
+#	game.x = 12341
+#	print(game.x)
+#	var utils = get_node("utils")
+#	print(utils.x)
+	game_class.thing()
 	pass
