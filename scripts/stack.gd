@@ -1,4 +1,4 @@
-#extends "res://stack.gd"
+#extends "stack.gd"
 
 var stack
 
