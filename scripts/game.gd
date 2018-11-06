@@ -84,7 +84,6 @@ func set_player_making_choice(player_index):
 func is_players_turn(player_index):
 	return _active_player == player_index
 
-
 func set_player_paying_mana_cost(player_index):
 	set_player_making_choice(player_index)
 	_player_paying_mana_cost = player_index

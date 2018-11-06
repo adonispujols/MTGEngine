@@ -23,8 +23,8 @@ static func start_next_step_or_phase(game):
 static func untap_step_start(game):
 	game.set_step_or_phase(0)
 	game.change_active_player_to_next_player()
-	# untap all permanents()
-	
+	# untap all permanents of active player
+	game.get_active_player().untap
 	
 static func 
 static func 
