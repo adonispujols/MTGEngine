@@ -12,39 +12,74 @@ const END_OF_COMBAT_STEP = 9
 const POST_COMBAT_PHASE = 10
 const END_STEP = 11
 const CLEANUP_STEP = 12
-
 # list holding method names as strings
-const start_step_or_phase_methods = []
+const start_step_or_phase_methods = ["upkeep_step_start", "draw_step_start",
+		"pre_combat_phase_start", "begin_combat_step_start", "begin_combat_step_start",
+		"declare_attackers_step_start", "first_strike_damage_step_start",
+		"combat_damage_step_start", "end_combat_step_start", "post_combat_phase_start",
+		"end_step_start", "cleanup_step_start", "untap_step_start"]
 
-# methods
-static func start_next_step_or_phase(game):
-	call(start_step_or_phase_methods[game.get_current_step_or_phase()], game)
+func start_next_step_or_phase(game):
+	call(start_step_or_phase_methods[game.step_or_phase()], game) # START ON UPKEEP, untap last
 
-static func untap_step_start(game):
-	game.set_step_or_phase(0)
-	game.change_active_player_to_next_player()
-	# untap all permanents of active player
+func special_untap_step_start(game, first_player):
+	game.step_or_phase = 0
+	# XXX ^ evil set (along with rest of step_or_phase = x)
+	first_player.becomes_active()
 	game.get_active_player().untap
-	
-static func 
-static func 
-static func 
-static func 
-static func 
-static func 
-static func 
-static func 
-static func 
-static func 
-static func 
-"""
-* untap_step_start(game)
-- game.set_step_or_phase(0)
-^- this COULD be made more efficient/automated on end_phase... call BUT risks making code buggy (so we won't).
-- game.change_active_player_to_next_player():
-^- set the active player to the next player
-- untap all permanents (if able/barring costs)
-^- in ruling: to "determine what to untap" means to check if there are any effect preventing something from untapping.
-- skip immediately to untap step because NO ONE receives priority during this step [CR 502.3]:
-- "No player receives priority....Triggers during this step are held until next time a player would receive priority, which is usually during the upkeep step. (See rule 503, “Upkeep Step.”)"
-"""
+	upkeep_step_start(game)
+
+func untap_step_start(game):
+	game.step_or_phase = 0
+	game.change_active_player_to_next()
+	game.get_active_player().untap_all_permanents()
+	upkeep_step_start(game)
+
+func upkeep_step_start(game):
+	game.step_or_phase = 1
+	game.get_active_player.gain_priority()
+
+func draw_step_start(game):
+	game.step_or_phase = 2
+	game.get_active_player().draw(1)
+	game.get_active_player.gain_priority()
+
+func pre_combat_phase_start(game):
+    game.step_or_phase = 3
+    game.get_active_player.gain_priority()
+
+func begin_combat_step_start(game):
+    game.step_or_phase = 4
+    game.get_active_player.gain_priority()
+
+func declare_attackers_step_start(game):
+    game.step_or_phase = 5
+    game.get_active_player.gain_priority()
+
+func declare_blockers_step_start(game):
+    game.step_or_phase = 6
+    game.get_active_player.gain_priority()
+
+func first_strike_damage_step_start(game):
+    game.step_or_phase = 7
+    game.get_active_player.gain_priority()
+
+func combat_damage_step_start(game):
+    game.step_or_phase = 8
+    game.get_active_player.gain_priority()
+
+func end_combat_step_start(game):
+    game.step_or_phase = 9
+    game.get_active_player.gain_priority()
+
+func post_combat_phase_start(game):
+    game.step_or_phase = 10
+    game.get_active_player.gain_priority()
+
+func end_step_start(game):
+    game.step_or_phase = 11
+    game.get_active_player.gain_priority()
+
+func cleanup_step_start(game):
+    game.step_or_phase = 12
+    untap_step_start(game)
