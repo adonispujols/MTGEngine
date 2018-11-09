@@ -6,10 +6,10 @@ func _init():
 func size():
 	return deck.size()
 
-func push(card):
+func add_top(card):
 	deck.append(card)
 
-func pop():
+func remove_top():
 	return deck.pop_back()
 	# ^ returns null if empty, it seems
 
