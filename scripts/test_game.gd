@@ -1,8 +1,6 @@
 const x = 34
+var battlefield = []
 
-#restrictions = {"sorcery_speed":sorcery_speed
-#func _init():
-#	pass
 func test():
 	print("game test")
 

@@ -1,10 +1,10 @@
 var players
 var first_player
+# XXX should NOT hold first_player in memory (wasteful). how to get around it?
 var step_or_phase
 var passes_count
 var battlefield
 var stack
-# XXX should NOT hold this in memory (it's a waste). how to get around it?
 const TurnBasedActions = preload("turn_based_actions.gd")
 
 # Initializing member vars on object creation
@@ -21,6 +21,9 @@ func _init(_players, _first_player):
 	# XXX ^ preload class calls?
 	stack = Stack.new()
 
+func start_game():
+	TurnBasedActions.special_untap_step_start(self, get_player(first_player))
+
 func get_player(player_index):
 	return players[player_index]
 
@@ -36,11 +39,12 @@ func get_player_due_priority():
 
 func pass_priority(player):
 	if !player.has_priority():
-		print("Passed without priority. Player: ", player.index())
+		print("ERROR: Passed without priority. Player: ", player.index())
+		get_tree().quit()
 	player.lose_priority()
 	if all_players_passed_no_actions(player.index()) and stack.empty():
 		empty_mana_pools()
-		TurnBasedActions.start_next_step_or_phase(this)
+		TurnBasedActions.start_next_step_or_phase(step_or_phase, this)
 	else:
 		if !stack.empty():
 			stack.resolve_next()
@@ -55,22 +59,19 @@ func all_players_passed_no_actions(player_index):
 	else:
 		passes_count += 1
 
-func start_game():
-	TurnBasedActions.special_untap_step_start(self, get_player(first_player))
+func step_or_phase():
+	return step_or_phase
 
 func change_active_player_to_next():
 	previous_active_player_index = get_active_player.get_index()
-	get_active_player.becomes_nonactive()
-	get_player((player.get_index + 1) % players.size()).becomes_active()
+	get_active_player.make_nonactive()
+	get_player((player.get_index + 1) % players.size()).make_active()
 
 func empty_mana_pools():
 	for player in players:
 		player.mana_pool.clear()
 
-func step_or_phase():
-	return step_or_phase
-
-func get_all_permanents_of_player(player_index):
+func get_permanents_of_player(player_index):
 	return battefield[player_index]
 
 func put_on_battlefield(card, player):
