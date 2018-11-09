@@ -1,15 +1,19 @@
-extends Node
+var hand
 
-# class member variables go here, for example:
-# var a = 2
-# var b = "textvar"
+func _init():
+	hand = []
 
-func _ready():
-	# Called when the node is added to the scene for the first time.
-	# Initialization here
-	pass
+func size():
+	return hand.size()
 
-#func _process(delta):
-#	# Called every frame. Delta is time since last frame.
-#	# Update game logic here.
-#	pass
+func add(card):
+	hand.append(card)
+
+func get(card_index):
+	return hand[card_index]
+
+func remove(card_index):
+	var card = get(card_index)
+	hand.remove(card_index)
+	# XXX ^ remove(index) doesn't return anything
+	return card
