@@ -35,28 +35,7 @@ func _ready():
 #	field1.append(14)
 #	field2.append(26)
 #	print(game.battlefield)
-#	var found = {}
-#	var j = 0
-#	for x in range(100):
-#		j = randi() % ((4 - 1) + 1) # should be in range (0, 3), inclusive
-#		# where 4 is n, and (4 - 1) is i
-#		if !found.has(j):
-#			found[j] = 1
-#	print("found all: ", found.has_all([0,1,2,3]))
-#	print(found)
-	randomize()
-	var deck = [0, 1, 2, 3, 4]
-	var j = 0
-	var temp
-	for i in range(deck.size() - 1, 1, -1):
-		j = randi() % (i + 1) # random int for 0 <= j <= i
-		temp = deck[j]
-		print("i: ", i)
-		deck[j] = deck[i]
-		deck[i] = temp
-		if temp == deck[j]:
-			print("ERROR: temp = deck[j]")
-	print(deck)
+#	GameClass.static_test()
 	get_tree().quit()
 	pass
 	

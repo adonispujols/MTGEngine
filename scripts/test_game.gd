@@ -9,3 +9,6 @@ func const_test():
 
 func sorcery_speed():
 	print("game sorcery speed")
+
+static func static_test():
+	print("static test worked: ", x)

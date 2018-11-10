@@ -67,7 +67,7 @@ func stopped_paying_mana_cost():
 
 func draw(amount):
 	for x in range(amount):
-		hand.add(deck.pop())
+		hand.add(deck.remove_top())
 
 func untap_all_permanents():
 	for card in game.get_permanents_of_player(index):
